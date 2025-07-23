@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Download, Play, Image, FileText, Mail, ExternalLink, Phone } from "lucide-react";
 import { DiscordIcon } from "./ui/DiscordIcon";
 import { XIcon } from "./ui/XIcon";
@@ -13,6 +15,10 @@ import { saveAs } from "file-saver";
 
 const MediaKit = () => {
   const [isZipping, setIsZipping] = useState(false);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const autoplay = useRef(
+    Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })
+  );
 
   const handleTrailerClick = () => {
     document.getElementById("trailer")?.scrollIntoView({ behavior: "smooth" });
@@ -32,11 +38,6 @@ const MediaKit = () => {
     {
       title: "DeepSee Screenshot",
       url: "/screenshots/DeepSeeScreenshot28.png",
-      description: ""
-    },
-    {
-      title: "DeepSee Screenshot",
-      url: "/screenshots/DeepSeeScreenshot28 copy.png",
       description: ""
     },
     {
@@ -231,88 +232,121 @@ const MediaKit = () => {
       </section>
 
       {/* Game Information */}
-      <section className="py-16 px-6">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl font-bold text-center mb-12 text-foreground">Game Information</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="bg-card/80 backdrop-blur-sm border-border shadow-soft">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-4 text-card-foreground">About Deep See</h3>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Embark on an extraordinary underwater VR adventure that takes you to the deepest, most mysterious parts of our oceans. Using cutting-edge virtual reality technology, explore sunken civilizations, encounter magnificent sea creatures, and uncover secrets that have been hidden beneath the waves for millennia.
-                </p>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Platform:</span>
-                    <span className="text-foreground">VR (Oculus, Steam VR)</span>
+      <section className="py-16 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-glow opacity-10 animate-shimmer"></div>
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold mb-4 text-white">
+              Game Overview
+            </h2>
+          </div>
+          
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* About Section */}
+            <div className="group">
+              <Card className="h-full bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-md border-border/50 shadow-elegant hover:shadow-glow transition-all duration-500 group-hover:scale-[1.02] overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+                <CardContent className="p-8 relative z-10">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mr-4 shadow-glow">
+                      <span className="text-2xl">🌊</span>
+                    </div>
+                    <h3 className="text-3xl font-bold text-card-foreground">About DeepSee VR</h3>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Genre:</span>
-                    <span className="text-foreground">Adventure, Exploration</span>
+                  
+                  <p className="text-muted-foreground leading-relaxed mb-8 text-lg">
+                  Step into the fins of a marine biologist sent to investigate a strange anomaly on the ocean floor. As you descend deeper, you’ll uncover abandoned facilities, rogue machines, and a chilling secret buried in the abyss. Swim through hauntingly beautiful environments, solve puzzles, and dodge killer machines - all using just your hands.
+                  </p>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-background/30 rounded-lg p-4 backdrop-blur-sm border border-border/30">
+                      <div className="text-sm text-muted-foreground mb-1">Platform</div>
+                      <div className="font-semibold text-foreground">Meta Quest</div>
+                    </div>
+                    <div className="bg-background/30 rounded-lg p-4 backdrop-blur-sm border border-border/30">
+                      <div className="text-sm text-muted-foreground mb-1">Genre</div>
+                      <div className="font-semibold text-foreground">Mystery, Exploration</div>
+                    </div>
+                    <div className="bg-background/30 rounded-lg p-4 backdrop-blur-sm border border-border/30">
+                      <div className="text-sm text-muted-foreground mb-1">Release Date</div>
+                      <div className="font-semibold text-foreground">Q3 2025</div>
+                    </div>
+                    <div className="bg-background/30 rounded-lg p-4 backdrop-blur-sm border border-border/30">
+                      <div className="text-sm text-muted-foreground mb-1">Developer</div>
+                      <div className="font-semibold text-foreground">Indieverse Studio</div>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Release Date:</span>
-                    <span className="text-foreground">Q2 2024</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Developer:</span>
-                    <span className="text-foreground">Indieverse Studio</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
 
-            <Card className="bg-card/80 backdrop-blur-sm border-border shadow-soft">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-4 text-card-foreground">Key Features</h3>
-                <ul className="space-y-3 text-muted-foreground">
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span>Immersive VR underwater exploration with realistic physics</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span>Discover ancient civilizations and lost artifacts</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span>Encounter diverse marine life in their natural habitat</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span>Multiple submarine vessels with unique capabilities</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span>Dynamic weather and ocean current systems</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span>Story-driven narrative with multiple endings</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
+            {/* Features Section */}
+            <div className="group">
+              <Card className="h-full bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-md border-border/50 shadow-elegant hover:shadow-glow transition-all duration-500 group-hover:scale-[1.02] overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+                <CardContent className="p-8 relative z-10">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mr-4 shadow-glow">
+                      <span className="text-2xl">⚡</span>
+                    </div>
+                    <h3 className="text-3xl font-bold text-card-foreground">Key Features</h3>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {[
+                      { icon: "🏊", text: "Hand-tracked swimming for intuitive, full-body underwater movement" },
+                      { icon: "🧩", text: "Environmental puzzles that challenge logic and spatial skills" },
+                      { icon: "🌍", text: "Diverse biomes including caves, ruins, and research labs" },
+                      { icon: "🔎", text: "Narrative discovery through scanning, clues, and exploration" },
+                      { icon: "⚠️", text: "Stealth survival against rogue machines and sea creatures" },
+                      { icon: "🌊", text: "Immersive world with dynamic currents and ambient sea life" }
+                    ].map((feature, index) => (
+                      <div key={index} className="flex items-center group/item hover:transform hover:translate-x-2 transition-transform duration-300">
+                        <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center mr-4 shadow-glow flex-shrink-0 group-hover/item:scale-110 transition-transform duration-300">
+                          <span className="text-lg">{feature.icon}</span>
+                        </div>
+                        <span className="text-muted-foreground leading-relaxed group-hover/item:text-foreground transition-colors duration-300">
+                          {feature.text}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </section>
-
       {/* Videos Section */}
       <section className="py-16 px-6 bg-gradient-depth">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl font-bold text-center mb-12 text-foreground">Videos</h2>
+          <h2 className="text-4xl font-bold text-center mb-12 text-foreground">Gameplay Videos</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {videos.map((video, index) => (
               <Dialog key={index}>
                 <DialogTrigger asChild>
-                  <Card className="group overflow-hidden cursor-pointer bg-card/80 backdrop-blur-sm border-border shadow-soft hover:shadow-glow transition-all duration-300">
+                  <Card
+                    className="group overflow-hidden cursor-pointer bg-card/80 backdrop-blur-sm border-border shadow-soft hover:shadow-glow transition-all duration-300"
+                    onMouseEnter={() => videoRefs.current[index]?.play().catch(() => {})}
+                    onMouseLeave={() => {
+                      if (videoRefs.current[index]) {
+                        videoRefs.current[index]!.pause();
+                        videoRefs.current[index]!.currentTime = 0;
+                        videoRefs.current[index]!.load();
+                      }
+                    }}
+                  >
                     <div className="relative">
-                      <img 
-                        src={video.thumbnail} 
-                        alt={video.title}
+                      <video
+                        ref={(el) => (videoRefs.current[index] = el)}
+                        src={video.url}
+                        poster={video.thumbnail}
+                        muted
+                        loop
+                        playsInline
                         className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300">
                         <Button size="icon" className="bg-primary hover:bg-primary-glow shadow-glow">
                           <Play className="h-6 w-6" />
                         </Button>
@@ -335,37 +369,47 @@ const MediaKit = () => {
         </div>
       </section>
 
-      {/* Screenshots Section */}
-      <section className="py-16 px-6">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl font-bold text-center mb-12 text-foreground">Screenshots</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {screenshots.map((screenshot, index) => (
-              <Dialog key={index}>
-                <DialogTrigger asChild>
-                  <Card className="group overflow-hidden cursor-pointer bg-card/80 backdrop-blur-sm border-border shadow-soft hover:shadow-glow transition-all duration-300">
-                    <div className="aspect-w-16 aspect-h-9">
-                      <img 
-                        src={screenshot.url} 
-                        alt={screenshot.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                  </Card>
-                </DialogTrigger>
-                <DialogContent className="max-w-4xl w-full bg-card border-border p-0">
-                  <img 
-                    src={screenshot.url} 
-                    alt={screenshot.title}
-                    className="w-full h-auto rounded-lg"
-                  />
-                </DialogContent>
-              </Dialog>
-            ))}
+{/* Screenshots Section */}
+<section className="py-16 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-glow opacity-5 animate-shimmer"></div>
+        <div className="container mx-auto max-w-full relative z-10">
+          <h2 className="text-4xl font-bold text-center mb-12 text-foreground">
+            Screenshots
+          </h2>
+          
+          <div className="relative px-16">
+            <Carousel className="w-full" opts={{ align: "center", loop: true }} plugins={[autoplay.current]}>
+              <CarouselContent className="-ml-2 md:-ml-4">
+                {screenshots.map((screenshot, index) => (
+                  <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-3/5">
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <div className="group relative overflow-hidden rounded-2xl cursor-pointer bg-card/80 backdrop-blur-sm border-border shadow-soft hover:shadow-glow transition-all duration-500 hover:scale-[1.02]">
+                          <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-10"></div>
+                          <img 
+                            src={screenshot.url} 
+                            alt={screenshot.title}
+                            className="w-full h-[60vh] object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-6xl w-full bg-card border-border">
+                        <img 
+                          src={screenshot.url} 
+                          alt={screenshot.title}
+                          className="w-full h-auto rounded-lg"
+                        />
+                      </DialogContent>
+                    </Dialog>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="left-4 bg-card/80 border-border hover:bg-card text-card-foreground shadow-elegant" />
+              <CarouselNext className="right-4 bg-card/80 border-border hover:bg-card text-card-foreground shadow-elegant" />
+            </Carousel>
           </div>
         </div>
       </section>
-
       {/* Assets Download Section */}
       <section className="py-16 px-6 bg-gradient-depth">
         <div className="container mx-auto max-w-6xl">
