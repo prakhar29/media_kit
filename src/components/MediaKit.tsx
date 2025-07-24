@@ -182,7 +182,7 @@ const MediaKit = () => {
             <img 
               src="/logo.png" 
               alt="Deep See Logo" 
-              className="h-96 md:h-[32rem] lg:h-[40rem] mx-auto"
+              className="h-96 md:h-[32rem] lg:h-[40rem] mx-auto object-contain"
             />
             <div className="relative -mt-24 md:-mt-32">
               <p className="text-2xl md:text-3xl mb-2 text-foreground font-light">
@@ -190,7 +190,7 @@ const MediaKit = () => {
               </p>
               <div className="flex justify-center items-center gap-4 text-lg text-muted-foreground mb-8">
                 <span>BY</span>
-                <img src="/Indieverse_logo.png" alt="Indieverse Studio Logo" className="h-[4.5rem]"/>
+                <img src="/Indieverse_logo.png" alt="Indieverse Studio Logo" className="h-[4.5rem] w-auto object-contain"/>
               </div>
             </div>
           </div>
@@ -370,26 +370,26 @@ const MediaKit = () => {
       </section>
 
 {/* Screenshots Section */}
-<section className="py-16 px-6 relative overflow-hidden">
+<section className="py-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-glow opacity-5 animate-shimmer"></div>
-        <div className="container mx-auto max-w-full relative z-10">
+        <div className="mx-auto max-w-full relative z-10">
           <h2 className="text-4xl font-bold text-center mb-12 text-foreground">
             Screenshots
           </h2>
           
-          <div className="relative px-16">
+          <div className="relative">
             <Carousel className="w-full" opts={{ align: "center", loop: true }} plugins={[autoplay.current]}>
-              <CarouselContent className="-ml-2 md:-ml-4">
+              <CarouselContent className="-ml-4">
                 {screenshots.map((screenshot, index) => (
-                  <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-3/5">
+                  <CarouselItem key={index} className="pl-4 basis-4/5 md:basis-3/5">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <div className="group relative overflow-hidden rounded-2xl cursor-pointer bg-card/80 backdrop-blur-sm border-border shadow-soft hover:shadow-glow transition-all duration-500 hover:scale-[1.02]">
+                        <div className="group relative overflow-hidden rounded-2xl cursor-pointer bg-card/80 backdrop-blur-sm border-border shadow-soft hover:shadow-glow transition-all duration-500 hover:scale-[1.02] aspect-w-16 aspect-h-9">
                           <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-10"></div>
                           <img 
                             src={screenshot.url} 
                             alt={screenshot.title}
-                            className="w-full h-[60vh] object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                         </div>
                       </DialogTrigger>
@@ -461,7 +461,7 @@ const MediaKit = () => {
             <CardContent className="p-8">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="flex justify-center md:justify-start">
-                  <img src="/Indieverse_logo.png" alt="Indieverse Studio Logo" className="h-48" />
+                  <img src="/Indieverse_logo.png" alt="Indieverse Studio Logo" className="h-48 w-auto object-contain" />
                 </div>
                 <div className="space-y-6">
                   <div className="space-y-3 text-left">
